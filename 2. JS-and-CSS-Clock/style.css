@@ -44,4 +44,12 @@ body {
     background: black;
     position: absolute;
     top: 50%;
+    /* where transform starts, default is 50% ie middle does along x-axis */
+    transform-origin: 100%;
+    /* set divs to start at 12 o'clock */
+    transform: rotate(90deg);
+    /* transitions when rotates */
+    transition: all 0.05s;
+    /* gives tick tick feel in transition */
+    transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
 }
