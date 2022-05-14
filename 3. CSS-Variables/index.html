@@ -15,6 +15,8 @@
 
         <label for="blur">Blur:</label>
         <!-- data attribute is an attribute you have made up -->
+        <!-- dataset contains all data attributes from the element -->
+        <!-- data-sizing-"px" creates the suffix-->
         <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
 
         <label for="base">Base Color</label>
@@ -64,10 +66,14 @@
     </style>
 
     <script>
+        //you can update a css variable on any element and any selectors in the element that use that variable wil be used.
         const inputs = document.querySelectorAll('.controls input');
+        // querySelectorAll() returns a NodeList, looks like an array, less limited methods to work with it
 
         function handleUpdate() {
-            console.log(this.value);
+            const suffix = this.dataset.sizing || '';
+            document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+            // console.log(suffix);
         }
         inputs.forEach(input => input.addEventListener('change', handleUpdate));
         // changes on mouse move not just drop after drag
