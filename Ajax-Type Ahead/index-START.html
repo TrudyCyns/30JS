@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
@@ -14,9 +16,44 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint =
+      'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
-</script>
+    // Create array to put data fetched
+    const cities = [];
+
+    // fetch returns a promise, as in something will eventually return.
+    // blob has to be converted from raw data to JSON
+    // Push into cities since it is constant
+    // Spread data into push method
+    fetch(endpoint)
+      .then(blob => blob.json())
+      .then(data => cities.push(...data));
+
+    // Function to filter through cities
+    function findMatches(wordToMatch, cities) {
+      return cities.filter(place => {
+        // We need to figure out if the city or state matches what was searched. Use a regex
+        // To use variable in regex, create a regex, g for global, i for case insensitive. Insert regex in return statement
+        const regex = new RegExp(wordToMatch, 'gi');
+        return place.city.match(regex) || place.state.match(regex);
+      });
+    }
+    // Function to display
+    function displayMatches() {
+      const matchArray = findMatches(this.value, cities);
+      console.log(matchArray);
+    }
+
+    // Select input field
+    const searchInput = document.querySelector(".search");
+    const suggestions = document.querySelector('.suggestions');
+
+    // Listen for changes to input
+    searchInput.addEventListener('change', displayMatches);
+    searchInput.addEventListener('keyup', displayMatches);
+  </script>
 </body>
+
 </html>
