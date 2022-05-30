@@ -40,10 +40,28 @@
         return place.city.match(regex) || place.state.match(regex);
       });
     }
+
+    // To display number with commas.
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     // Function to display
     function displayMatches() {
       const matchArray = findMatches(this.value, cities);
-      console.log(matchArray);
+      const html = matchArray.map(place => {
+        const regex = new RegExp(this.value, 'gi');
+        const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`)
+        const stateName = place.city.replace(regex, `<span class="hl">${this.value}</span>`)
+        return `
+          <li>
+            <span class ="name">${cityName}, ${place.state}</span>
+            <span class="population">${numberWithCommas(place.population)}</span>
+          </li>
+        `;
+        // Retruns one big string instead of aray
+      }).join('');
+      suggestions.innerHTML = html;
     }
 
     // Select input field
